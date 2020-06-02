@@ -34,7 +34,7 @@ AC_MSG_RESULT($DIST_ROOT)
 
 dnl Set of available languages.
 ALL_LINGUAS="ja"
-AM_GNU_GETTEXT
+AM_GNU_GETTEXT(external)
 AC_CHECK_FUNC(gettext,,AC_CHECK_LIB(intl,gettext))
 dnl localedir='${prefix}/share/locale'
 dnl AC_SUBST(localedir)

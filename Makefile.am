@@ -1,6 +1,6 @@
 AUTOMAKE_OPTIONS = foreign
 
-SUBDIRS = intl sayleen po doc
+SUBDIRS = sayleen po doc
 
 YYMMDD = `date +%Y%m%d`
 
