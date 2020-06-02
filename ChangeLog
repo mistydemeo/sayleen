@@ -1,0 +1,148 @@
+2002-10-27  Daisuke Nagano  <breeze.nagano@nifty.ne.jp>
+
+	* intl/: Changed gettext to version 0-10-40.
+
+	* sayleen/smfplay_main.c, rcpconv_main.c:
+	Added option: --dev0, --dev1 to specify multiple midi-out.
+
+	* sayleen/mididev.c: added 'const' to each data tables.
+
+2002-10-17  Daisuke Nagano  <breeze.nagano@nifty.ne.jp>
+
+	* sayleen/netbsdgetopt.h: renamed from getopt.h
+
+	* configure.in: Added checking /proc/driver/rtc
+	(in Linux 2.4.x)
+
+2002-10-16  Daisuke Nagano  <breeze.nagano@nifty.ne.jp>
+
+	* License changed from GPL2 to (new)BSD-like licence.
+
+	* sayleen/getopt.c, getopt_long.c getopt.h:
+	Changed to NetBSD's getopt
+
+
+2001-07-07  Daisuke Nagano  <breeze.nagano@nifty.ne.jp>
+
+	* sayleen/mididev.c: Added function: devrtc_usleep(long)
+	It will be available only on Linux.
+
+
+2001-07-01  Daisuke Nagano  <breeze.nagano@nifty.ne.jp>
+
+	* sayleen/{smf,rcp}play.c: If the value of HZ of the system
+	is more than 100, sleep-time resolution become more ground.
+
+
+2001-05-06  Daisuke Nagano  <breeze.nagano@nifty.ne.jp>
+
+	* sayleen/rcptomid.c: Begin to add support for STed3 data.
+
+	* sayleen/rcptomid.c: Changed to detect port setting on header.
+
+
+2000-12-24  Daisuke Nagano  <breeze.nagano@nifty.ne.jp>
+
+	* sayleen/rcpplay.c: Add support for sending START / STOP / CLOCK of
+	Realtime messages.
+
+
+2000-10-07  Daisuke Nagano  <breeze.nagano@nifty.ne.jp>
+
+	* configure.in: Changed the name of system into
+	`sayleen'.
+
+
+2000-08-31  Daisuke Nagano  <breeze.nagano@nifty.ne.jp>
+
+	* rcpconv/[smf,rcp]play.c: Changed calculation of
+	delta time.
+
+	* rcpconv/*.c: make warning-free.
+
+
+Mon Feb  7 21:58:40 2000  Daisuke Nagano  <breeze.nagano@nifty.ne.jp>
+
+	* rcpconv/mididev.c: Checks for is the specified device
+	character-device.
+
+
+Fri Feb  4 21:14:43 2000  Daisuke Nagano  <breeze.nagano@nifty.ne.jp>
+
+	* rcpconv/rcpplay.c: little bug fixed.
+
+	* rcpconv/smfplay.c, and so on: added.
+	tiny SMF player has been implemented.
+
+
+Sun Jan 16 11:27:02 2000  Daisuke Nagano  <breeze.nagano@nifty.ne.jp>
+
+	* src/rcptomid.c: In many case, the last event of each tracks
+	were ignored. Fixed.
+
+
+Wed Jan  5 19:34:44 2000  Daisuke Nagano  <breeze.nagano@nifty.ne.jp>
+
+	* src/mididev.c: delete all previous changes.
+
+
+Tue Jan  4 23:06:35 2000  Daisuke Nagano  <breeze.nagano@nifty.ne.jp>
+
+	* src/rcpplay.c: add MIDI-in routine. It may be used by STed2.
+
+
+Thu Dec 23 19:39:36 1999  Daisuke Nagano  <breeze.nagano@nifty.ne.jp>
+
+	* src/mididev.c : Fix some serial-line treating bugs.
+
+	
+Sun Dec 19 15:52:39 1999  Daisuke Nagano  <breeze.nagano@nifty.ne.jp>
+
+	* src/version.h.in: (version ÃÞÈîÀþ - ¼þÁ¥»û)
+
+	* src/rcptomid.c: Erase invalid META_TIMESIG.
+	
+	* src/rcptomid.c: Fix the rare case conversion could locks.
+
+	
+Sat Dec 18 22:54:38 1999  Daisuke Nagano  <breeze.nagano@nifty.ne.jp>
+
+	* src/rcp_functions.c: Fixes a bug: in some case
+	the "LAST" note never be expired.
+
+
+Fri Dec 17 18:40:41 1999  Daisuke Nagano  <breeze.nagano@nifty.ne.jp>
+
+	* src/rcptomid.c: append RCP/R36 player functions.
+
+
+Tue Dec 14 21:16:26 1999  Daisuke Nagano  <breeze.nagano@nifty.ne.jp>
+
+	* src/rcp.h: change the type of rcp->step from int to long.
+
+
+Fri Oct 22 21:55:10 1999  Daisuke Nagano  <breeze.nagano@nifty.ne.jp>
+
+	* version.h.in: (version ÃÞÈîÀþ - º£½É)
+
+	* doc/rcpconv.[13]: added.
+
+
+Sat May 29 00:06:28 1999  Daisuke Nagano  <breeze.nagano@nifty.ne.jp>
+
+	* version.h.in: (version ÃÞÈîÀþ - ²¼»³Ìç)
+
+	* rcpconv.c: create wrapper functions rcpconv() and 
+	rcpcont_with_notices().
+
+	* rcptomid.c: move version information text into version.h.
+
+	* rcptomid.c: At writing the notification text, now we checks
+	for whether command_name, file_name, date is NULL or not.
+	If NULL, we will write default messages.
+
+
+Thu May 20 23:27:26 1999  Daisuke Nagano  <breeze.nagano@nifty.ne.jp>
+
+	* Initial release ( version ÃÞÈîÀþ - ÌÅÉÍ )
+

@@ -1,0 +1,135 @@
+dnl Process this file with autoconf to produce a configure script.
+AC_INIT(sayleen/rcpconv_main.c)
+AM_INIT_AUTOMAKE(sayleen, `sed -n -e 's/^.*VERSION_ID.*"\(.*\)"$/\1/p' ${srcdir}/sayleen/version.h`)
+AM_CONFIG_HEADER(config.h)
+
+dnl library version
+LT_RELEASE=0
+LT_CURRENT=0
+LT_REVISION=0
+LT_AGE=0
+AC_SUBST(LT_RELEASE)
+AC_SUBST(LT_CURRENT)
+AC_SUBST(LT_REVISION)
+AC_SUBST(LT_AGE)
+
+AM_PROG_LIBTOOL
+AC_PROG_INSTALL
+AC_PROG_MAKE_SET
+
+dnl Checks for programs.
+AC_PROG_CC
+
+dnl define some variables
+PACKAGE="sayleen"
+VERSION=`sed -n -e 's/^.*VERSION_ID.*"\(.*\)"$/\1/p' ${srcdir}/sayleen/version.h`
+AC_SUBST(PACKAGE)
+AC_SUBST(VERSION)
+
+dnl # Where are we?
+AC_MSG_CHECKING(for distribution root)
+DIST_ROOT=`pwd`
+AC_SUBST(DIST_ROOT)
+AC_MSG_RESULT($DIST_ROOT)
+
+dnl Set of available languages.
+ALL_LINGUAS="ja"
+AM_GNU_GETTEXT
+AC_CHECK_FUNC(gettext,,AC_CHECK_LIB(intl,gettext))
+dnl localedir='${prefix}/share/locale'
+dnl AC_SUBST(localedir)
+
+dnl Checks for header files.
+AC_HEADER_STDC
+AC_CHECK_HEADERS(fcntl.h sys/ioctl.h sys/time.h unistd.h)
+
+dnl Checks for typedefs, structures, and compiler characteristics.
+AC_TYPE_SIZE_T
+AC_HEADER_TIME
+
+dnl Checks for library functions.
+AC_PROG_GCC_TRADITIONAL
+AC_TYPE_SIGNAL
+AC_CHECK_FUNCS(gettimeofday select usleep nanosleep)
+
+dnl checking getopt
+AC_CHECK_FUNC(getopt_long, GETOPT_OBJ="" GETOPT_SRC="" use_netbsdgetopt=0, 
+	GETOPT_SRC="getopt.c getopt_long.c" GETOPT_OBJ="getopt.o getopt_long.o" use_netbsdgetopt=1)
+AC_SUBST(GETOPT_SRC)
+AC_SUBST(GETOPT_OBJ)
+if test "$use_netbsdgetopt" = "1"; then
+AC_DEFINE(USE_NETBSDGETOPT)
+fi
+
+dnl checks for default serial device name
+
+SYSNAME=`uname -s`
+is_rtc_available="no";
+case "$SYSNAME" in
+  Linux)
+    default_output_device_name="/dev/ttyS0"
+    is_rtc_available="yes";
+    ;;
+  FreeBSD)
+    default_output_device_name="/dev/ttyd0"
+    ;;
+  *)
+    default_output_device_name="/dev/ttya"
+    ;;
+esac 
+
+AC_MSG_CHECKING(for serial device)
+AC_ARG_WITH( output-device,
+  [  --with-output-device    output device name to use ],
+  output_device_name="$withval",
+  output_device_name="$default_output_device_name" )
+
+echo $output_device_name
+AC_DEFINE_UNQUOTED(DEFAULT_OUTPUT_DEVICE, "$output_device_name")
+
+AC_MSG_CHECKING(for STed2 interface)
+AC_ARG_ENABLE( sted-interface,
+  [  --enable-sted-interface enable sted interface  (default is no)],
+  enable_sted_interface=$enableval,
+  enable_sted_interface=no)
+echo $enable_sted_interface
+
+if test "x$enable_sted_interface" = "xyes"; then
+  AC_DEFINE(HAVE_STED2_SUPPORT)
+fi
+
+AC_MSG_CHECKING(for /dev/rtc)
+AC_ARG_ENABLE( devrtc,
+ [  --enable-devrtc         enable /dev/rtc for timer (default is no)],
+  enable_devrtc=$enableval,
+  enable_devrtc=no)
+if test "x$is_rtc_available" = "xno"; then
+  enable_devrtc="no";
+fi
+if test "x$enable_devrtc" = "xyes"; then
+  enable_devrtc="no";
+  if test -r /dev/rtc; then
+    if test -r /proc/rtc; then
+      enable_devrtc="yes";
+    elif test -r /proc/driver/rtc; then
+      enable_devrtc="yes";
+    fi
+  fi
+fi
+if test "x$enable_devrtc" = "xyes"; then
+  AC_DEFINE(HAVE_DEV_RTC)
+fi
+echo $enable_devrtc
+
+dnl Defines
+AC_DEFINE_UNQUOTED(PACKAGE, "$PACKAGE")
+AC_DEFINE_UNQUOTED(VERSION, "$VERSION")
+
+AC_OUTPUT(
+	Makefile 
+	sayleen/Makefile 
+	intl/Makefile 
+	po/Makefile.in 
+	doc/Makefile,
+[sed -e "/POTFILES =/r po/POTFILES" po/Makefile.in > po/Makefile]
+)

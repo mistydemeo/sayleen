@@ -1,0 +1,209 @@
+sayleen - SMF / RCP / R36 player / convert -
+
+*About sayleen
+==============
+
+ sayleen contains some sort of MIDI player / converters.
+
+ `smfplay' is the first item that can play Standard MIDI file with
+ external MIDI module. It connected via raw MIDI device or serial
+ port.
+ Off cource, `smfplay` supports port changing meta message. `smfplay'
+ can control all ports / channels of multitimble sound module s.t. 
+ SC88 / MU80.
+
+
+ The other items are related to `Recomposer' files. Items are player,
+ converter and its library.
+
+ RCP / R36 / G18 / G36 is a sort of MIDI sequence format. These format
+ is produced from some sequencers released from Come-On Music's
+ products, Recomposer series ( These are only famous in Japan).  Since
+ these format is very popular in Japan, many MIDI sequence data based
+ on these format instead of Standard MIDI file (SMF) are existing.
+ There are even some free software sequencers those are capable handle
+ these format.
+
+ Of course, RCP formatted data cannot be played any SMF player. To use
+ these data, we must convert it to SMF. For these purpos, there already
+ have been existing a RCP to SMF converter "rcptomid" made by Fuyuki
+ Kimura <mail_address_isnot_available>. Posted to fj.sources newsgroup
+ at Mar.1995. But it had some restrictions for its functions and the
+ copying licence was not clear (there were no 'COPYING' file in its
+ package). Furthermore, the developer of the converter have graduated
+ and his mail address noted in the package has not be available. Any
+ modification cannot be attached.  I has been very worried with these
+ problems.
+
+ So I made the same (moreover enhanced) functionally programs and
+ libraries to use it freely.
+
+ The library `rcpconv` converts RCP / R36 file to Standard MIDI file
+ with reserving many of original informations ( Title, Memo, Beat, Key
+ and others ).  # In further release, it will support G18/G36 format.
+
+ The program `rcpconv` is the tiny implementations for the library.  It
+ is a command-line program / filter. It reads RCP / R36 file from
+ specified file or STDIN, and writes the result SMF file into STDOUT
+ (or specified file). It also can set `copyright` meta message of
+ output SMF file with command-line options.
+
+
+ The program `rcpplay` is also build. It is a tiny implementation of
+ RCP/R36 player based on rcpconv.
+
+
+*Installation
+=============
+
+ Please refer `INSTALL` file to install libraries and programs.  To
+ build `rcpconv` without sharing the library `rcpconv.so.?.?.?`, set
+ the option `--without-shared` to `./configure`.
+
+ An easier way to build it, type:
+
+   # ./configure ; make ; make install
+
+ It installs all libraries, program (`rcpconv`, `rcpplay`, 'smfplay')
+ and locale messages.
+
+
+*Usage of program
+=================
+
+   usage: rcpconv [options] [rcp-filename]
+   Options:
+    -o, --outfile    <filename> Output to file as <filename>.
+        --version    Show version information.
+        --verbose    Be verbose.
+        --copyright  <msg> Set copyright meta event as <msg>.
+    -h, --help       Show this help message.
+
+ If no [rcp-filename] specified, it reads from STDIN. The result of
+ convert is written to STDOUT. If you want to write it to a particular
+ file, use `-o` option.
+
+ With `--copyright` option , the specified <msg> is buried into the
+ result SMF file with copyright meta event ( 0xff 0x02 ).
+
+
+ The usage of `rcpplay' and `rcpconv' are almost same. 
+
+   usage: smfplay [options] [smf-filename]
+   Options:
+    -m,     --outdev <devname>   Output device name.
+            --dev0 <devname>     Output device name 0.
+            --dev1 <devname>     Output device name 1.
+    -r,     --reset-mode <val>   Send specified reset message after playing.
+                               0:GM 1:GS 2:SC88 3:XG
+    -v,     --verbose            Be verbose.
+    -V,     --version            Show version information.
+    -h,     --help               Show this help message.
+
+ `Output device name' is a name of raw MIDI device, serial device. Each
+ player can recognize whether the specified device is raw MIDI or serial
+ automatically, and if serial device, they set the configuration of device
+ correctly.
+
+
+*Usage of library
+=================
+
+ The library has two functions. These are arbitrary converts an RCP
+ formatted file into SMF. But one of them can set some kind of 
+ messages into SMF data like copyright notice, original filename, etc.
+
+   #include "rcpconv.h"
+
+   long *rcpconv(unsigned char *data,
+                 long length,
+                 unsigned char **smf,
+                 unsigned char *copyright )
+
+   long rcpconv_with_notice( unsigned char *data,
+                 long length,
+                 unsigned char **smf, 
+                 unsigned char *copyright,
+                 unsigned char *command_name,
+                 unsigned char *file_name,
+                 unsigned char *date )
+
+    ARGUMENTS
+
+        data
+                     Pointer to RCP data.
+        length
+                     Length (bytes) of RCP data.
+        smf
+                     Destination of conversion.
+        copyright
+                     Copyright notice. If you don't need, specify NULL.
+
+        command_name
+                     Converter's command name.
+        file_name
+                     Filename of original RCP file.
+        date
+                     Timestamp of original RCP file.
+
+    DESCRIPTION
+
+        rcpconv converts a RCP / R36 file into SMF file.
+
+        rcpconv_with_notice has almost same function. But it can
+        bury some notification messages about the original file,
+        file name, timestamp, length, and converter command name.
+        These message is buried with text meta event (0xff 0x01).
+
+        They also bury a copyright notice with copyright meta event
+        (0xff 0x03). If you are copyright-concious, use it practical.
+
+
+    RETURN VALUE
+
+        rcpconv and rcpconv_with_notice also return the size of converted
+        SMF data. If the conversion failed, it returns negative value.
+
+
+*A LITTLE BONUS
+===============
+
+ # chmod a+s {smf,rcp}play
+ will make them a little tempo-concious, but it also produce serious
+ security-issue.
+
+
+*LICENSE
+========
+
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+
+
+*Availability
+=============
+
+ The latest version of rcpconv will be available at:
+
+   http://member.nifty.ne.jp/Breeze/linux/index.html
+
+
+*Author
+=======
+
+ Daisuke Nagano <breeze.nagano@nifty.ne.jp>

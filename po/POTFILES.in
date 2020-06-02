@@ -1,0 +1,10 @@
+# List of source files containing translatable strings.
+
+sayleen/rcpconv_main.c
+sayleen/rcpconv.c
+sayleen/rcpplay.c
+sayleen/rcp_functions.c
+sayleen/rcpfile.c
+sayleen/rcptomid.c
+sayleen/mididev.c
+sayleen/smf.c

@@ -1,0 +1,3 @@
+#define VERSION_ID	"zVERSION_IDz"
+#define VERSION_TEXT1   "Chikuhi-line"
+#define VERSION_TEXT2   "Shikaka"

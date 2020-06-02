@@ -1,0 +1,60 @@
+#! /bin/sh
+#
+# tiny MIDI (rcp,smf) player script
+# (C) 2000 Studio Breeze
+#
+#
+#
+#
+
+RCPPLAYER="rcpplay -r2"
+SMFPLAYER="smfplay -r2"
+
+device_name=""
+verbose=0;
+
+if [ "x$1" = "x" ]; then
+     echo "usage: sayleen (filename.{mid rcp r36})";
+     exit 1;
+fi
+
+while [ $# -ne 0 ]
+do
+  if [ $verbose -ne 0 ]; then
+    echo "Play: $1"
+  fi
+
+  case $1 in
+
+    -m | --device)
+     shift
+     device_name="$1"
+     ;;
+
+    -v | --verbose)
+     verbose=1
+     ;;
+
+    *.MID | *.mid)
+     if [ "x$device_name" = "x" ]; then
+	$SMFPLAYER $1
+     else
+	$SMFPLAYER -m $device_name $1
+     fi
+    ;;
+
+    *.RCP | *.rcp | *.R36 | *.r36)
+     if [ "x$device_name" = "x" ]; then
+	$RCPPLAYER $1
+     else
+	$RCPPLAYER -m $device_name $1
+     fi
+    ;;
+
+    *)
+    ;;
+   esac
+   shift
+done 
+
+exit 0;

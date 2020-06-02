@@ -1,0 +1,66 @@
+.TH rcpconv 3 "October 1999" local "MIDI application"
+.SH NAME
+rcpconv \- converts RCP / R36 file into Standard MIDI file
+.SH SYNOPSIS
+.nf
+.B #include "rcpconv.h"
+.sp
+.BI "long *rcpconv(unsigned char *"data ,
+.BI "              long " length,
+.BI "              unsigned char **"smf,
+.BI "              unsigned char *"copyright );
+.sp
+.BI "long rcpconv_with_notice( unsigned char *"data,
+.BI "                          long " length,
+.BI "                          unsigned char **"smf,
+.BI "                          unsigned char *"copyright,
+.BI "                          unsigned char *"command_name,
+.BI "                          unsigned char *"file_name,
+.BI "                          unsigned char *"date );
+.SH ARGUMENTS
+.IP \fIdata\fP 1i
+Pointer to RCP data.
+.IP \fIlength\fP 1i
+Length (bytes) of RCP data.
+.IP \fIsmf\fP 1i
+Destination of conversion.
+.IP \fIcopyright\fP 1i
+Copyright notice. If you don't need, specify NULL.
+.IP \fIcommand_name\fP 1i
+Converter's command name.
+.IP \fIfile_name\fP 1i
+Filename of original RCP file.
+.IP \fIdate\fP 1i
+Timestamp of original RCP file.
+.SH DESCRIPTION
+.I rcpconv
+converts a RCP / R36 file into SMF file.
+.sp
+.I rcpconv_with_notice
+has almost same function. But it can
+bury some notification messages about the original file,
+file name, timestamp, length, and converter command name.
+These message is buried with text meta event (0xff 0x01).
+.sp
+They also bury a copyright notice with copyright meta event
+(0xff 0x03). If you are copyright-concious, use it practical.
+.SH RETURN VALUE
+.I rcpconv
+and
+.I rcpconv_with_notice
+also return the size of converted
+SMF data. If the conversion failed, it returns negative value.
+.SH RCP / R36 FORMAT
+RCP / R36 / G18 / G36 is a sort of MIDI sequence format. These format
+is produced from some sequencers released from Come-On Music's
+products, Recomposer series ( These are only famous in Japan).  Since
+these format is very popular in Japan, many MIDI sequence data based
+on these format instead of Standard MIDI file (SMF) are existing.
+There are even some free software sequencers those are capable handle
+these format.
+.SH SEE ALSO
+rcpconv(1)
+.SH AUTHORS
+Daisuke Nagano <breeze.nagano@nifty.ne.jp>
+
+

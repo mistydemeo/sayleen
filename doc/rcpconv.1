@@ -1,0 +1,53 @@
+.TH rcpconv 1 "October 1999" local "MIDI application"
+.SH NAME
+rcpconv \- converts RCP / R36 file into Standard MIDI file
+.SH SYNOPSIS
+.B rcpconv
+.RI [ options ]
+.RI file ...
+.SH DESCRIPTION
+.I rcpconv
+converts RCP / R36 file into Standard MIDI file ( SMF )
+with reserving many of original informations ( Title, Memo, Beat,
+Key and others ).
+.PP
+It reads RCP / R36 file from specified file or STDIN, and writes the 
+result SMF file to STDOUT (or specified file).
+It also can set `copyright` meta message of output SMF file with
+command-line options.
+.SH OPTIONS
+.TP
+.B \-o, \-\-outfile <filename>
+Output to specified file.
+.TP
+.B \-\-verbose
+Be verbose.
+.TP
+.B \-\-copyright <msg>
+Set copyright meta event as <msg>.
+.TP
+.B \-\-version
+Show version information
+.TP
+.B \-h, \-\-help
+Show help message.
+
+.SH FILENAME
+If no <filename> is specified in command line,  it reads from STDIN.
+The result of convert is written to STDOUT.
+If you want to write it into particular file, use `\-o` option.
+
+.SH RCP / R36 FORMAT
+RCP / R36 / G18 / G36 is a sort of MIDI sequence format. These format
+is produced from some sequencers released from Come-On Music's
+products, Recomposer series ( These are only famous in Japan).  Since
+these format is very popular in Japan, many MIDI sequence data based
+on these format instead of Standard MIDI file (SMF) are existing.
+There are even some free software sequencers those are capable handle
+these format.
+
+.SH SEE ALSO
+rcpconv(3)
+.SH AUTHORS
+Daisuke Nagano <breeze.nagano@nifty.ne.jp>
+
