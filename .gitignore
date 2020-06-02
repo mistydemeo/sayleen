@@ -1,0 +1,11 @@
+# Automake junk
+.deps
+autom4te.cache
+config.h
+config.log
+config.status
+libtool
+Makefile
+stamp-h1
+po/Makefile.in
+po/POTFILES
