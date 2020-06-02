@@ -3,6 +3,8 @@ AC_INIT(sayleen/rcpconv_main.c)
 AM_INIT_AUTOMAKE(sayleen, `sed -n -e 's/^.*VERSION_ID.*"\(.*\)"$/\1/p' ${srcdir}/sayleen/version.h`)
 AM_CONFIG_HEADER(config.h)
 
+AC_CONFIG_MACRO_DIRS([m4])
+
 dnl library version
 LT_RELEASE=0
 LT_CURRENT=0
