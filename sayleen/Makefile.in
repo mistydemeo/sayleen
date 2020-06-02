@@ -385,7 +385,7 @@ rcpconv_SOURCES = rcpconv_main.c gettext_wrapper.h \
                   rcpfile.c rcpconv.c rcpconv.h \
                   mididev.c rcpplay.c mididev.h
 
-rcpconv_DEPENDENCIES = @GETOPT_OBJ@
+rcpconv_DEPENDENCIES = @GETOPT_OBJ@ librcpconv.la
 smfplay_SOURCES = smfplay_main.c smffile.c smfplay.c \
                   smfplay.h smf.h version.h \
                   mididev.c mididev.h
