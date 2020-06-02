@@ -353,7 +353,7 @@ static int set_signals( void ) {
 
 static int priority_init( void ) {
 
-#ifdef _POSIX_PRIORITY_SCHEDULING
+#if defined(_POSIX_PRIORITY_SCHEDULING ) && defined(__linux__)
   struct sched_param ptmp, *priority_param;
   int i;
 
