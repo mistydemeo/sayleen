@@ -9,3 +9,9 @@ Makefile
 stamp-h1
 po/Makefile.in
 po/POTFILES
+sayleen/*.la
+sayleen/*.lo
+sayleen/*.o
+sayleen/.libs
+sayleen/rcpconv
+sayleen/smfplay
