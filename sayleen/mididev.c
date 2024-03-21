@@ -50,6 +50,10 @@
 # include <sys/ioctl.h>
 #endif
 
+#ifdef HAVE_NANOSLEEP
+# include <time.h>
+#endif
+
 #include "rcp.h"
 #include "mididev.h"
 
